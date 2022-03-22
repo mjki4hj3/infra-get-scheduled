@@ -154,3 +154,33 @@ resource "aws_nat_gateway" "natgateway-two" {
   depends_on = [aws_internet_gateway.internet-gateway]
 }
 
+
+# Create Private Route Table One
+# terraform aws create route table
+resource "aws_route_table" "private-route-table-one" {
+  vpc_id       = aws_vpc.vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id =  aws_nat_gateway.natgateway-one
+  }
+
+  tags       = {
+    Name     = "Private Route Table One"
+  }
+}
+
+# Create Private Route Table Two
+# terraform aws create route table
+resource "aws_route_table" "private-route-table-tow" {
+  vpc_id       = aws_vpc.vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id =  aws_nat_gateway.natgateway-two
+  }
+
+  tags       = {
+    Name     = "Private Route Table Two"
+  }
+}
