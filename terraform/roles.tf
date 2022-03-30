@@ -1,18 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-}
-
-# Configure the AWS Provider
-provider "aws" {
-  region = "us-east-1"
-}
-
-#
 resource "aws_iam_role_policy" "ecs_service_role_policy" {
   name = "ecs_policy"
   role = aws_iam_role.ecs_service_role.id
