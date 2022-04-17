@@ -1,18 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-}
-
-# Configure the AWS Provider
-provider "aws" {
-  region = "us-east-1"
-}
-
-#
 resource "aws_iam_role_policy" "ecs_service_role_policy" {
   name = "ecs_policy"
   role = aws_iam_role.ecs_service_role.id
@@ -73,9 +58,9 @@ resource "aws_iam_role" "ecs_service_role" {
 }
 
 
-resource "aws_iam_role_policy" "ecs_task_role_policy" {
+resource "aws_iam_role_policy" "ecs-task-role-policy" {
   name = "ecs_task"
-  role = aws_iam_role.ecs_task_role.id
+  role = aws_iam_role.ecs-task-role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -107,7 +92,7 @@ resource "aws_iam_role_policy" "ecs_task_role_policy" {
   })
 }
 
-resource "aws_iam_role" "ecs_task_role" {
+resource "aws_iam_role" "ecs-task-role" {
   name = "ecs_task_role"
 
   assume_role_policy = jsonencode({
@@ -128,9 +113,9 @@ resource "aws_iam_role" "ecs_task_role" {
 }
 
 
-resource "aws_iam_role_policy" "getscheduled_codepipeline_service_role_policy" {
+resource "aws_iam_role_policy" "getscheduled-codepipeline_service_role_policy" {
   name = "getscheduled_codepipeline_service_policy"
-  role = aws_iam_role.getscheduled_codebuild_service_role.id
+  role = aws_iam_role.getscheduled-codebuild-service-role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -180,7 +165,7 @@ resource "aws_iam_role_policy" "getscheduled_codepipeline_service_role_policy" {
   })
 }
 
-resource "aws_iam_role" "getscheduled_codepipeline_service_role" {
+resource "aws_iam_role" "getscheduled-codepipeline_service_role" {
   name = "getscheduled_codepipeline_service_role"
 
   assume_role_policy = jsonencode({
@@ -201,9 +186,9 @@ resource "aws_iam_role" "getscheduled_codepipeline_service_role" {
 }
 
 
-resource "aws_iam_role_policy" "getscheduled_codebuild_service_role_policy" {
+resource "aws_iam_role_policy" "getscheduled-codebuild-service-role-policy" {
   name = "getscheduled_codebuild_service_policy"
-  role = aws_iam_role.getscheduled_codebuild_service_role.id
+  role = aws_iam_role.getscheduled-codebuild-service-role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -253,7 +238,7 @@ resource "aws_iam_role_policy" "getscheduled_codebuild_service_role_policy" {
   })
 }
 
-resource "aws_iam_role" "getscheduled_codebuild_service_role" {
+resource "aws_iam_role" "getscheduled-codebuild-service-role" {
   name = "getscheduled_codebuild_service_role"
 
   assume_role_policy = jsonencode({
