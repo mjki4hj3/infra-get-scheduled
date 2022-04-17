@@ -12,8 +12,7 @@ resource "aws_ecr_repository" "getscheduled-ecr-repository" {
 resource "aws_ecr_repository_policy" "getscheduled-ecr-repository-policy" {
   repository = aws_ecr_repository.getscheduled-ecr-repository.name
 
-  policy = <<EOF
-{
+  policy = jsonencode({
     "Version": "2008-10-17",
     "Statement": [
     {
@@ -21,7 +20,7 @@ resource "aws_ecr_repository_policy" "getscheduled-ecr-repository-policy" {
       "Effect": "Allow",
       "Principal": {
         "AWS": [
-         "REPLACE_ME_CODEBUILD_ROLE_ARN"
+         "${aws_iam_role.getscheduled-codebuild-service-role.arn}"
         ]
       },
       "Action": [
@@ -35,6 +34,5 @@ resource "aws_ecr_repository_policy" "getscheduled-ecr-repository-policy" {
       ]
     }
   ]
-}
-EOF
+  })
 }

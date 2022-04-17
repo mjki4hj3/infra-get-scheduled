@@ -1,10 +1,10 @@
+variable "account_id" {
+    description = "The AWS account id"  
+}
+
 variable "region" {
     default = "us-east-1"
     description = "region to deploy the resources in"
-}
-
-variable "account_id" {
-    
 }
 
 variable "vpc-cidr" {
