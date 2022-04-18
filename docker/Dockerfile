@@ -10,4 +10,4 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "hello:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "hello:app"]
