@@ -1,5 +1,4 @@
-#Create Security Group for Fargate
-#terraform aws create security group
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 
 resource "aws_security_group" "FargateContainerSecurityGroup" {
   name        = "FargateContainerSecurityGroup"
@@ -10,14 +9,14 @@ resource "aws_security_group" "FargateContainerSecurityGroup" {
     description      = "TLS from VPC"
     from_port        = 0
     to_port          = 0
-    protocol         = "tcp"
+    protocol         = "-1"
     cidr_blocks      = ["${var.vpc-cidr}"]
   }
 
   egress {
     from_port        = 0
     to_port          = 0
-    protocol         = "-1"
+    protocol         = -1
     cidr_blocks      = ["0.0.0.0/0"]
   }
 

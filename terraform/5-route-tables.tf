@@ -15,14 +15,14 @@ resource "aws_route_table" "public-route-table" {
 }
 
 # Associate Public Subnet One to "Public Route Table"
-# terraform aws associate subnet with route table
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
 resource "aws_route_table_association" "public-subnet-one-route-table-association" {
   subnet_id           = aws_subnet.public-subnet-one.id
   route_table_id      = aws_route_table.public-route-table.id
 }
 
 # Associate Public Subnet Two to "Public Route Table"
-# terraform aws associate subnet with route table
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
 resource "aws_route_table_association" "public-subnet-two-route-table-association" {
   subnet_id           = aws_subnet.public-subnet-two.id
   route_table_id      = aws_route_table.public-route-table.id
@@ -64,4 +64,19 @@ resource "aws_route_table" "private-route-table-two" {
   tags       = {
     Name     = "Private Route Table Two"
   }
+}
+
+
+# Associate Private Subnet One to "Private Route Table"
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
+resource "aws_route_table_association" "private-subnet-one-route-table-association" {
+  subnet_id           = aws_subnet.private-subnet-one.id
+  route_table_id      = aws_route_table.private-route-table-one.id
+}
+
+# Associate Private Subnet Two to "Private Route Table"
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
+resource "aws_route_table_association" "private-subnet-two-route-table-association" {
+  subnet_id           = aws_subnet.private-subnet-two.id
+  route_table_id      = aws_route_table.private-route-table-two.id
 }

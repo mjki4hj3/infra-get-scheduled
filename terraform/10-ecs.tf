@@ -62,7 +62,7 @@ resource "aws_ecs_service" "getscheduled-service-definition" {
 
   network_configuration {
     assign_public_ip = false
-    subnets = ["${aws_subnet.public-subnet-one.id}", "${aws_subnet.public-subnet-two.id}"]
+    subnets = ["${aws_subnet.private-subnet-one.id}", "${aws_subnet.private-subnet-two.id}"]
     security_groups = ["${aws_security_group.FargateContainerSecurityGroup.id}"]
   }
 

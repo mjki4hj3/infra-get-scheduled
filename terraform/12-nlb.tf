@@ -6,7 +6,7 @@ resource "aws_lb" "getscheduled_nlb" {
   load_balancer_type = "network"
   subnets            = ["${aws_subnet.public-subnet-one.id}", "${aws_subnet.public-subnet-two.id}"]
 
-  enable_deletion_protection = true
+
 
   tags = {
     Environment = "production"
