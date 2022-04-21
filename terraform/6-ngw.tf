@@ -19,11 +19,11 @@ resource "aws_eip" "eip-for-nat-gateway-two" {
 }
 
 #Create NatGateWay One
-# terraform aws create natgateway
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway
 
 resource "aws_nat_gateway" "natgateway-one" {
   allocation_id = aws_eip.eip-for-nat-gateway-one.id
-  subnet_id     = aws_subnet.private-subnet-one.id
+  subnet_id     = aws_subnet.public-subnet-one.id
 
   tags = {
     Name = "getscheduled-ngw-one"
@@ -36,10 +36,10 @@ resource "aws_nat_gateway" "natgateway-one" {
 
 
 #Create NatGateWay Two
-# terraform aws create natgateway
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway
 resource "aws_nat_gateway" "natgateway-two" {
   allocation_id = aws_eip.eip-for-nat-gateway-two.id
-  subnet_id     = aws_subnet.private-subnet-two.id
+  subnet_id     = aws_subnet.public-subnet-two.id
 
   tags = {
     Name = "getscheduled-ngw-two"

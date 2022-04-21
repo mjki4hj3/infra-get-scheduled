@@ -17,7 +17,7 @@ resource "aws_ecs_cluster" "getscheduled-cluster" {
 }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition
-resource "aws_ecs_task_definition" "getscheduled-service" {
+resource "aws_ecs_task_definition" "getscheduled-task-definition" {
   family = "getscheduled-service"
   cpu = 256
   memory = 512
@@ -48,3 +48,31 @@ resource "aws_ecs_task_definition" "getscheduled-service" {
   ])
 
 }
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service
+resource "aws_ecs_service" "getscheduled-service-definition" {
+  name = "GetScheduled-Service"
+  cluster = aws_ecs_cluster.getscheduled-cluster.id
+  task_definition = aws_ecs_task_definition.getscheduled-task-definition.arn
+  launch_type = "FARGATE"
+  desired_count = 1
+
+  deployment_maximum_percent = 200
+  deployment_minimum_healthy_percent = 0
+
+  network_configuration {
+    assign_public_ip = false
+    subnets = ["${aws_subnet.private-subnet-one.id}", "${aws_subnet.private-subnet-two.id}"]
+    security_groups = ["${aws_security_group.FargateContainerSecurityGroup.id}"]
+  }
+
+  load_balancer {
+
+    container_name = "GetScheduled-Service"
+    container_port = 8080
+    target_group_arn = aws_lb_target_group.getscheduled_target_group.arn
+  }
+  
+}
+
+
