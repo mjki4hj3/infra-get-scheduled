@@ -2,8 +2,4 @@
 
 resource "aws_s3_bucket" "getscheduled-artifacts-bucket" {
   bucket = "getscheduled-artifacts-bucket"
-
-  tags = {
-    Name        = "getscheduled-artifacts-bucket"
-  }
 }
