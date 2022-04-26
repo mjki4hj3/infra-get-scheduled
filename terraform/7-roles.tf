@@ -112,10 +112,29 @@ resource "aws_iam_role" "ecs-task-role" {
   })
 }
 
+resource "aws_iam_role" "getscheduled-codepipeline-service-role" {
+  name = "getscheduled_codepipeline_service_role"
 
-resource "aws_iam_role_policy" "getscheduled-codepipeline_service_role_policy" {
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = [
+            "codepipeline.amazonaws.com"
+          ]
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "getscheduled-codepipeline-service-role-policy" {
   name = "getscheduled_codepipeline_service_policy"
-  role = aws_iam_role.getscheduled-codebuild-service-role.id
+  role = aws_iam_role.getscheduled-codepipeline-service-role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -161,26 +180,6 @@ resource "aws_iam_role_policy" "getscheduled-codepipeline_service_role_policy" {
         Resource = "*"
       },
       
-    ]
-  })
-}
-
-resource "aws_iam_role" "getscheduled-codepipeline_service_role" {
-  name = "getscheduled_codepipeline_service_role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = [
-            "codepipeline.amazonaws.com"
-          ]
-        }
-      },
     ]
   })
 }
@@ -285,3 +284,51 @@ resource "aws_ecr_repository_policy" "getscheduled-ecr-repository-policy" {
   ]
   })
 }
+
+resource "aws_s3_bucket_policy" "allow_s3_access_from_codebuild_and_codepipline" {
+  bucket = aws_s3_bucket.getscheduled-artifacts-bucket.id
+  policy = jsonencode({
+      "Statement": [
+      {
+        "Sid": "WhitelistedGet",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": [
+            "${aws_iam_role.getscheduled-codebuild-service-role.arn}",
+            "${aws_iam_role.getscheduled-codepipeline-service-role.arn}",
+          ]
+        },
+        "Action": [
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketVersioning"
+        ],
+        "Resource": [
+          "arn:aws:s3:::getscheduled-artifacts-bucket/*",
+          "arn:aws:s3:::getscheduled-artifacts-bucket"
+        ]
+      },
+      {
+        "Sid": "WhitelistedPut",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": [
+            "${aws_iam_role.getscheduled-codebuild-service-role.arn}",
+            "${aws_iam_role.getscheduled-codepipeline-service-role.arn}",
+          ]
+        },
+        "Action": "s3:PutObject",
+        "Resource": [
+          "arn:aws:s3:::getscheduled-artifacts-bucket/*",
+          "arn:aws:s3:::getscheduled-artifacts-bucket"
+        ]
+      }
+    ]
+  })
+
+  depends_on = [
+    aws_s3_bucket.getscheduled-artifacts-bucket
+  ]
+}
+
+
