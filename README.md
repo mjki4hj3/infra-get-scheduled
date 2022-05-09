@@ -1,6 +1,8 @@
-This infrastructure was developed and designed in mind for use with the alcoudguru AWS sandbox account. As a result certain steps are needed to be taken to provision the required resources. These are detailed in setup below.
+This infrastructure was developed and designed in mind for use with the alcoudguru AWS sandbox account. As a result certain steps are needed to be taken to provision the required resources. These are detailed in setup instructions below.
 
-The design intent was to build a scalable, modern and maintainable microservice backend for the [Get Scheduled App](https://github.com/mjki4hj3/get-scheduled). 
+The design intent was to build a scalable, modern and maintainable microservice backend for the [Get Scheduled App](https://github.com/mjki4hj3/get-scheduled).
+
+<img src="AWS Infrastructue Get-Scheduled.svg">
 
 ## Prerequisites 
 
@@ -48,7 +50,7 @@ Once ECS task is running then enter the NLB URL to the backend up and running!
 ## Improvements
 
 - Docker security best practices need to be implemented
-- Implement developer
+- Implement developer and production environments
 - Use ALB instead of NLB
 - Once ALB is in place use that instead of NAT Gateways
 - Update high level architechture diagram to only show on AZ to declutter diagram
