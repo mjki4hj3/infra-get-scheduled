@@ -18,7 +18,6 @@ Authenticate with AWS CLI via
 aws configure 
 ```
 
-### Terraform
 To provision the infrastructure in AWS after authenticating via the cli runng the follwoing commands.
 
 ```bash
